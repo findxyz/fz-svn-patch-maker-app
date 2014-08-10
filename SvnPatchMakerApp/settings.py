@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'SvnPatchMakerApp'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -80,3 +81,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
+
+DATE_FORMAT = 'Y-m-d'
+DATETIME_FORMAT = 'Y-m-d H:i:s'
+
+SHORT_DATE_FORMAT = 'Y.m.d'
+SHORT_DATETIME_FORMAT = 'Y.m.d H:i'
+
+TIME_FORMAT = 'H:i'
+
+YEAR_MONTH_FORMAT = 'Y.m'
+
+MONTH_DAY_FORMAT = 'm.d'
+
+FIRST_DAY_OF_WEEK = 1
