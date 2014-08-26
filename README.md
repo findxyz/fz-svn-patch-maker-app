@@ -32,6 +32,7 @@ if sys.getdefaultencoding() != 'gbk':
 >reload(sys)
 >
 >sys.setdefaultencoding('gbk')
+
 <div># end</div>
 
 default_encoding = sys.getdefaultencoding()
