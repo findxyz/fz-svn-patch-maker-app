@@ -26,7 +26,6 @@ UnicodeDecodeError: 'ascii' codec can't decode byte 0xb0 in position 1: ordinal 
 进入python安装目录下的Lib目录，打开mimetypes.py文件
 在default_encoding = sys.getdefaultencoding()前添加
 
-<code>
 <div># begin</div>
 if sys.getdefaultencoding() != 'gbk':
 >reload(sys)
@@ -37,7 +36,6 @@ if sys.getdefaultencoding() != 'gbk':
 
 default_encoding = sys.getdefaultencoding()
 with _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, '') as hkcr:
-</code>
 
 
 解决办法参考：http://webrawler.blog.51cto.com/8343567/1339637
