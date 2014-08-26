@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import shutil
 
 __author__ = 'fz'
 
@@ -22,11 +23,12 @@ def pathchange(svnpath, origin, dest):
 def pathconvert(path, **kwargs):
     """
     convert svn path(/src/main/java)
-    to convert path(/WEB-INFO/class)
+    to convert path(/WEB-INF/class)
     """
     for key in kwargs:
         if key in path:
             return path.replace(key, kwargs[key], 1)
+    return path
 
 def convert4java(javapath):
     """
@@ -50,28 +52,87 @@ def convert4java(javapath):
     innername = javaname.replace('.java', '$')
     for file in files:
         filepath = os.path.join(dirname, file)
-        if os.path.isfile(filepath) and innername in file:
+        if os.path.isfile(filepath) and file.startswith(innername):
             javalist.append(filepath)
 
     return java2class(javalist)
 
+def savefiles(classlist, savepath, workpath):
+    savenormpath = os.path.normpath(savepath)
+    savefileslist = []
+    if not os.path.isdir(savenormpath):
+        os.makedirs(savenormpath)
+    else:
+        shutil.rmtree(savenormpath)
+    for classpath in classlist:
+        newfilepath = savenormpath + classpath.replace(os.path.normpath(workpath), '', 1)
+        newfiledir = os.path.dirname(newfilepath)
+        if not os.path.isdir(newfiledir):
+            os.makedirs(newfiledir)
+        if os.path.isfile(classpath):
+            shutil.copy(classpath, (newfilepath))
+            savefileslist.append(newfilepath)
+    return savefileslist
+
+def patchmake(svnpaths, svnworkpath, workpath, savepath, **converts):
+    msg = 'success'
+    resultfileslist = []
+    savefileslist = []
+    try:
+        for svnpath in svnpaths:
+            classpaths = []
+            path = pathchange(svnpath, svnworkpath, workpath)
+            path = pathconvert(path, **converts)
+            path = os.path.normpath(path)
+            filename = os.path.basename(path)
+            if '.java' in filename:
+                classpaths = convert4java(path)
+                resultfileslist += classpaths
+            else:
+                resultfileslist.append(path)
+        # save files
+        savefileslist = savefiles(resultfileslist, savepath, workpath)
+    except WindowsError, e:
+        if e.winerror == 145:
+            msg = r'生成失败了，关闭打包目录后重试' + '[' + str(e) + ']'
+        elif e.winerror == 3:
+            msg = r'转换路径出错了，请检查转换规则' + '[' + str(e) + ']'
+    except Exception, e:
+        msg = str(e)
+    return resultfileslist, savefileslist, msg
+
 if __name__ == '__main__':
     # path = pathchange(r'/springmvc/src/main/java/controller/BaseController.java', r'/springmvc', r'D:/workspace/mvcpro')
     # dict = {}
-    # dict['/src/main/java'] = '/WEB-INFO/classes'
+    # dict['/src/main/java'] = '/WEB-INF/classes'
     # path = pathconvert(path, **dict)
     # print path
 
     # path = pathchange(r'/src/main/java/controller/BaseController.java', r'', r'D:/workspace/mvcpro')
     # dict = {}
-    # dict['/src/main/java'] = '/WEB-INFO/classes'
+    # dict['/src/main/java'] = '/WEB-INF/classes'
     # path = pathconvert(path, **dict)
     # print path
 
-    path = r'D:/Devspace/shenli_lmis/lmis/src/org/lmis/persist/dao/deliver/yunshudan/ViewMidReYunShuDanDAO.java'
+    # path = r'D:/Devspace/shenli_lmis/lmis/src/org/lmis/persist/dao/deliver/yunshudan/ViewMidReYunShuDanDAO.java'
     # print os.path.normcase('D:/Devspace')
     # print os.path.isfile(path)
     # print os.path.basename(path)
     # print os.path.dirname(path)
-    print convert4java(os.path.normpath(path))
+    # print convert4java(os.path.normpath(path))
     # print convert4java(path)
+
+    svnpaths = [
+        '/lmis/src/org/lmis/persist/hibernate/deliver/yunshudan/YunShuDanDAOHibernate.java',
+        '/lmis/src/org/lmis/persist/hibernate/deliver/yunshudan/BillInfoDAOHibernate.java',
+        '/lmis/src/org/lmis/web/action/deliver/yunshudan/ListYunShuDanAction.java',
+        '/lmis/web/mainUI.jsp',
+        '/lmis/web/WEB-INF/pages/top.jsp'
+    ]
+    resultlist, msg = patchmake(svnpaths,
+                           r'/lmis',
+                           r'D:/Devspace/shenli_lmis/lmis',
+                           r'E:/svnlogfiles/sllmis',
+                           **{r'/src': r'/web/WEB-INF/classes'})
+    print '\n'.join(resultlist)
+    print msg
