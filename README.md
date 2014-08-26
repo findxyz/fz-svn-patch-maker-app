@@ -1,6 +1,6 @@
 SvnPatchMakerApp
 ================
-
+"""
 svn log file patch local compile file
 
 1.install python2.7.6
@@ -30,3 +30,4 @@ with _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, '') as hkcr:
 
 
 解决办法参考：http://webrawler.blog.51cto.com/8343567/1339637
+"""
