@@ -60,6 +60,7 @@ def convert4java(javapath):
 def savefiles(classlist, savepath, workpath):
     savenormpath = os.path.normpath(savepath)
     savefileslist = []
+    isfileslist = []
     if not os.path.isdir(savenormpath):
         os.makedirs(savenormpath)
     else:
@@ -72,12 +73,16 @@ def savefiles(classlist, savepath, workpath):
         if os.path.isfile(classpath):
             shutil.copy(classpath, (newfilepath))
             savefileslist.append(newfilepath)
-    return savefileslist
+            isfileslist.append({"filename": classpath, "isfile": 1})
+        else:
+            isfileslist.append({"filename": classpath, "isfile": 0})
+    return isfileslist, savefileslist
 
 def patchmake(svnpaths, svnworkpath, workpath, savepath, **converts):
     msg = 'success'
     resultfileslist = []
     savefileslist = []
+    isfileslist = []
     try:
         for svnpath in svnpaths:
             classpaths = []
@@ -91,7 +96,7 @@ def patchmake(svnpaths, svnworkpath, workpath, savepath, **converts):
             else:
                 resultfileslist.append(path)
         # save files
-        savefileslist = savefiles(resultfileslist, savepath, workpath)
+        isfileslist, savefileslist = savefiles(resultfileslist, savepath, workpath)
     except WindowsError, e:
         if e.winerror == 145:
             msg = r'生成失败了，关闭打包目录后重试' + '[' + str(e) + ']'
@@ -99,7 +104,7 @@ def patchmake(svnpaths, svnworkpath, workpath, savepath, **converts):
             msg = r'转换路径出错了，请检查转换规则' + '[' + str(e) + ']'
     except Exception, e:
         msg = str(e)
-    return resultfileslist, savefileslist, msg
+    return isfileslist, savefileslist, msg
 
 if __name__ == '__main__':
     # path = pathchange(r'/springmvc/src/main/java/controller/BaseController.java', r'/springmvc', r'D:/workspace/mvcpro')

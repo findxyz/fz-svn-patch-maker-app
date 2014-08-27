@@ -124,6 +124,8 @@ Ext.define('svnPatchMaker.svnLogPanel', {
                 id: 'searchBtn',
                 iconCls: 'Bookgo',
                 handler: function(){
+                    searchFileGrid.getStore().removeAll();
+                    chooseFileGrid.getStore().removeAll();
                     var projectRecords = svnProjectGrid.getSelectionModel().getSelection();
                     var projectRecord = projectRecords[0];
                     var userRecords = svnUserGrid.getSelectionModel().getSelection();
@@ -220,7 +222,14 @@ Ext.define('svnPatchMaker.svnLogPanel', {
                 selType:'checkboxmodel'
             },
             columns: [
-                { text: '文件路径', dataIndex: 'filename', flex: 1 },
+                {
+                    text: '文件路径',
+                    dataIndex: 'filename',
+                    flex: 1,
+                    renderer: function (v, meta, r) {
+                        return "<div style='white-space:normal;word-wrap:break-word;word-break:break-all;'>" + v + "</div>";
+                    }
+                },
                 {
                     text: '操作',
                     dataIndex: 'op',
@@ -261,7 +270,14 @@ Ext.define('svnPatchMaker.svnLogPanel', {
                 selType:'checkboxmodel'
             },
             columns: [
-                { text: '文件路径', dataIndex: 'filename', flex: 1 },
+                {
+                    text: '文件路径',
+                    dataIndex: 'filename',
+                    flex: 1,
+                    renderer: function (v, meta, r) {
+                        return "<div style='white-space:normal;word-wrap:break-word;word-break:break-all;'>" + v + "</div>";
+                    }
+                },
                 {
                     text: '操作',
                     dataIndex: 'op',
@@ -298,13 +314,13 @@ Ext.define('svnPatchMaker.svnLogPanel', {
                 text: '打包选中的文件',
                 iconCls: 'Cartgo',
                 handler: function(){
-                    var myMask = new Ext.LoadMask(Ext.getBody(), {
-                        msg: '正在处理，请稍后...',
-                        removeMask: true
-                    });
-                    myMask.show();
                     var records = chooseFileGrid.getSelectionModel().getSelection();
-                    if(records){
+                    if(records.length > 0){
+                        var myMask = new Ext.LoadMask(Ext.getBody(), {
+                            msg: '正在处理，请稍后...',
+                            removeMask: true
+                        });
+                        myMask.show();
                         var params = {};
                         var listPack = [];
                         var listDel = [];

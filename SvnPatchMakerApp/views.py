@@ -293,15 +293,10 @@ def packfiles(request):
     convertersdic = {}
     for converter in converters:
         convertersdic[converter.key] = converter.value
-    resultfileslist, savefileslist, msg = patchmaker.patchmake(filelist, project.svnpath, project.workpath, project.savepath, **convertersdic)
-    resultfiles = []
+    isfileslist, savefileslist, msg = patchmaker.patchmake(filelist, project.svnpath, project.workpath, project.savepath, **convertersdic)
     savefiles = []
-    for result in resultfileslist:
-        filedic = {}
-        filedic['filename'] = result
-        resultfiles.append(filedic)
     for save in savefileslist:
         filedic = {}
         filedic['filename'] = save
         savefiles.append(filedic)
-    return HttpResponse(json.dumps({"resultfiles": resultfiles, "savefiles": savefiles, "msg": '<font size="5" color="blue">' + msg + '</font>'}))
+    return HttpResponse(json.dumps({"resultfiles": isfileslist, "savefiles": savefiles, "msg": '<font size="5" color="blue">' + msg + '</font>'}))

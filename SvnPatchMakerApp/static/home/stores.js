@@ -113,7 +113,7 @@ Ext.create('Ext.data.Store', {
 
 Ext.create('Ext.data.Store', {
     storeId:'resultstore',
-    fields:['filename'],
+    fields:['filename', 'isfile'],
     autoLoad: true,
     proxy: {
         type: 'memory',
