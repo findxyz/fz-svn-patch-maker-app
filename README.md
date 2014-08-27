@@ -4,26 +4,19 @@ SvnPatchMakerApp
 svn log file patch local compile file
 -------------
 
-1.install python2.7.6
--------------
+***1.install python2.7.6***
 
-2.install django1.6.2 --> cd django dir, python setup.py install
--------------
+***2.install django1.6.2 --> cd django dir, python setup.py install***
 
-3.install pysvn version fit yourself
--------------
+***3.install pysvn version fit yourself***
 
-4.cd SvnPatchMakerApp --> python manage.py validate
--------------
+***4.cd SvnPatchMakerApp --> python manage.py validate***
 
-5.cd SvnPatchMakerApp --> python manage.py sqlall SvnPatchMakerApp
--------------
+***5.cd SvnPatchMakerApp --> python manage.py sqlall SvnPatchMakerApp***
 
-6.cd SvnPatchMakerApp --> python manage.py syncdb
--------------
+***6.cd SvnPatchMakerApp --> python manage.py syncdb***
 
-7.start run.bat
--------------
+***7.start run.bat***
 
 注意:
 
