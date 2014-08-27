@@ -198,7 +198,7 @@ Ext.define('svnPatchMaker.svnLogPanel', {
         /* svn log grid end*/
 
         var filespanel = Ext.create('Ext.panel.Panel', {
-            height: 550,
+            height: 400,
             border: false,
             layout: {
                 type: 'hbox',
