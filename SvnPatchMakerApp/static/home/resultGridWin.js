@@ -33,7 +33,7 @@ Ext.define('svnPatchMaker.resultGridWin', {
                     sortable: false,
                     locked: true
                 },
-                { text: '原文件', dataIndex: 'filename', width: 800 }
+                { text: '原文件', dataIndex: 'filename', width: 1000 }
             ]
         });
         var saveFilesGrid = Ext.create('Ext.grid.Panel', {
@@ -49,7 +49,7 @@ Ext.define('svnPatchMaker.resultGridWin', {
                     sortable: false,
                     locked: true
                 },
-                { text: '新文件', dataIndex: 'filename', width: 800 }
+                { text: '新文件', dataIndex: 'filename', width: 1000 }
             ]
         });
         filesPanel.add(resultFilesGrid);
