@@ -18,6 +18,8 @@ svn log file patch local compile file
 
 ***7.start run.bat***
 
+***8.使用手册在doc目录下***
+
 注意:
 
 >如果在程序运行过程中出现
