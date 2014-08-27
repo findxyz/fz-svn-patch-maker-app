@@ -13,17 +13,17 @@ Ext.onReady(function(){
     var projectPanel = Ext.create('Ext.panel.Panel', {
         region: 'center',
         layout: 'anchor',
-		autoScroll: true
+        autoScroll: true
     });
 
-	var svnProjectGrid = new svnPatchMaker.svnProjectGrid({
-		title: 'Svn项目',
+    var svnProjectGrid = new svnPatchMaker.svnProjectGrid({
+        title: 'Svn项目',
         height: 220
-	});
+    });
 
     var svnConverterGrid = new svnPatchMaker.svnConverterGrid({
-		title: 'Url转换'
-	});
+        title: 'Url转换'
+    });
 
     svnProjectGrid.on('select', function(grid, record){
         svnConverterGrid.getStore().load({
@@ -57,8 +57,8 @@ Ext.onReady(function(){
     mainTab.add(svnLogPanel);
     mainTab.add(configPanel);
 
-	Ext.create('Ext.container.Viewport', {
-		layout: 'fit',
-		items: [mainTab]
-	});
+    Ext.create('Ext.container.Viewport', {
+        layout: 'fit',
+        items: [mainTab]
+    });
 });

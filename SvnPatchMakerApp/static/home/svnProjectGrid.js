@@ -1,12 +1,12 @@
 Ext.define('svnPatchMaker.svnProjectGrid', {
-	extend: 'Ext.grid.Panel',
-	config: {
-		viewConfig: {
-			stripeRows: true,
-			enableTextSelection: true
-		},
-		store: Ext.data.StoreManager.lookup('svnProjectStore'),
-		columns: [
+    extend: 'Ext.grid.Panel',
+    config: {
+        viewConfig: {
+            stripeRows: true,
+            enableTextSelection: true
+        },
+        store: Ext.data.StoreManager.lookup('svnProjectStore'),
+        columns: [
             { dataIndex: 'id', hidden: true },
             { text: '项目名',  dataIndex: 'projectname', flex: 0.1 },
             { text: 'Svn地址', dataIndex: 'svnurl', flex: 0.30 },
@@ -20,7 +20,7 @@ Ext.define('svnPatchMaker.svnProjectGrid', {
                 }
             },
             { text: '打包目录', dataIndex: 'savepath', flex: 0.20 }
-		]
+        ]
     },
     initComponent: function(){
         var grid = this;
@@ -45,7 +45,7 @@ Ext.define('svnPatchMaker.svnProjectGrid', {
             iconCls: 'Bookedit',
             handler: function(){
                 var records = grid.getSelectionModel().getSelection();
-				var record = records[0];
+                var record = records[0];
                 if(record){
                     var win = new svnPatchMaker.svnProjectAddUpWin({
                         title: '编辑'
@@ -66,7 +66,7 @@ Ext.define('svnPatchMaker.svnProjectGrid', {
             iconCls: 'Bookdelete',
             handler: function(){
                 var records = grid.getSelectionModel().getSelection();
-				var record = records[0];
+                var record = records[0];
                 if(record){
                     Ext.Ajax.request({
                         url: 'del_project',
@@ -90,8 +90,8 @@ Ext.define('svnPatchMaker.svnProjectGrid', {
         grid.tbar = tbar;
         this.callParent(arguments);
     },
-	constructor: function(config){
-		this.initConfig(config);
-		this.callParent(arguments);
-	}
+    constructor: function(config){
+        this.initConfig(config);
+        this.callParent(arguments);
+    }
 });

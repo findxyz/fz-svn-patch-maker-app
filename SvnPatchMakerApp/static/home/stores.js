@@ -1,46 +1,46 @@
 Ext.create('Ext.data.Store', {
-	storeId:'svnProjectStore',
-	fields:['id', 'projectname', 'svnurl', 'svnpath', 'workpath', 'savepath'],
-	autoLoad: true,
-	proxy: {
-		type: 'ajax',
-		url: '/svnprojects',
-		timeout: 30000,
-		reader: {
-			type: 'json',
-			root: 'rows'
-		}
-	}
+    storeId:'svnProjectStore',
+    fields:['id', 'projectname', 'svnurl', 'svnpath', 'workpath', 'savepath'],
+    autoLoad: true,
+    proxy: {
+        type: 'ajax',
+        url: '/svnprojects',
+        timeout: 30000,
+        reader: {
+            type: 'json',
+            root: 'rows'
+        }
+    }
 });
 
 Ext.create('Ext.data.Store', {
-	storeId:'svnConverterStore',
-	fields:['id', 'project', 'key', 'value'],
-	autoLoad: false,
-	proxy: {
-		type: 'ajax',
-		url: '/svnconverters',
-		timeout: 30000,
-		reader: {
-			type: 'json',
-			root: 'rows'
-		}
-	}
+    storeId:'svnConverterStore',
+    fields:['id', 'project', 'key', 'value'],
+    autoLoad: false,
+    proxy: {
+        type: 'ajax',
+        url: '/svnconverters',
+        timeout: 30000,
+        reader: {
+            type: 'json',
+            root: 'rows'
+        }
+    }
 });
 
 Ext.create('Ext.data.Store', {
-	storeId:'svnAccountStore',
-	fields:['id', 'username', 'password'],
-	autoLoad: true,
-	proxy: {
-		type: 'ajax',
-		url: '/svnaccounts',
-		timeout: 30000,
-		reader: {
-			type: 'json',
-			root: 'rows'
-		}
-	}
+    storeId:'svnAccountStore',
+    fields:['id', 'username', 'password'],
+    autoLoad: true,
+    proxy: {
+        type: 'ajax',
+        url: '/svnaccounts',
+        timeout: 30000,
+        reader: {
+            type: 'json',
+            root: 'rows'
+        }
+    }
 });
 
 Ext.create('Ext.data.Store', {

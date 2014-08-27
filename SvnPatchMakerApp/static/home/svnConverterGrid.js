@@ -1,17 +1,17 @@
 Ext.define('svnPatchMaker.svnConverterGrid', {
-	extend: 'Ext.grid.Panel',
-	config: {
-		viewConfig: {
-			stripeRows: true,
-			enableTextSelection: true
-		},
-		store: Ext.data.StoreManager.lookup('svnConverterStore'),
-		columns: [
+    extend: 'Ext.grid.Panel',
+    config: {
+        viewConfig: {
+            stripeRows: true,
+            enableTextSelection: true
+        },
+        store: Ext.data.StoreManager.lookup('svnConverterStore'),
+        columns: [
             { dataIndex: 'id', hidden: true },
             { dataIndex: 'project', hidden: true },
-			{ text: '替换前',  dataIndex: 'key', flex: 0.5 },
-			{ text: '替换后', dataIndex: 'value', flex: 0.5 }
-		]
+            { text: '替换前',  dataIndex: 'key', flex: 0.5 },
+            { text: '替换后', dataIndex: 'value', flex: 0.5 }
+        ]
     },
     initComponent: function(){
         var grid = this;
@@ -43,7 +43,7 @@ Ext.define('svnPatchMaker.svnConverterGrid', {
             iconCls: 'Bookedit',
             handler: function(){
                 var records = grid.getSelectionModel().getSelection();
-				var record = records[0];
+                var record = records[0];
                 if(record){
                     var win = new svnPatchMaker.svnConverterAddUpWin({
                         title: '编辑'
@@ -64,7 +64,7 @@ Ext.define('svnPatchMaker.svnConverterGrid', {
             iconCls: 'Bookdelete',
             handler: function(){
                 var records = grid.getSelectionModel().getSelection();
-				var record = records[0];
+                var record = records[0];
                 if(record){
                     Ext.Ajax.request({
                         url: 'del_converter',
@@ -88,8 +88,8 @@ Ext.define('svnPatchMaker.svnConverterGrid', {
         grid.tbar = tbar;
         this.callParent(arguments);
     },
-	constructor: function(config){
-		this.initConfig(config);
-		this.callParent(arguments);
-	}
+    constructor: function(config){
+        this.initConfig(config);
+        this.callParent(arguments);
+    }
 });
