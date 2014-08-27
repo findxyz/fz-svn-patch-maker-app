@@ -4,11 +4,11 @@ SvnPatchMakerApp
 svn log file patch local compile file
 -------------
 
-***1.install python2.7.6***
+***1.install python2.7.6 https://www.python.org/download/releases/2.7.6/***
 
-***2.install django1.6.2 --> cd django dir, python setup.py install***
+***2.install django1.6.2 https://pypi.python.org/packages/source/D/Django/Django-1.6.2.tar.gz#md5=45d974c623b3bfbf9976f3d808fe1ee9 --> cd django dir, python setup.py install***
 
-***3.install pysvn version fit yourself***
+***3.install pysvn http://pysvn.tigris.org/servlets/ProjectDocumentList?folderID=1768 version fit yourself***
 
 ***4.cd SvnPatchMakerApp --> python manage.py validate***
 
