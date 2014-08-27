@@ -8,10 +8,10 @@ Ext.define('svnPatchMaker.svnProjectGrid', {
 		store: Ext.data.StoreManager.lookup('svnProjectStore'),
 		columns: [
             { dataIndex: 'id', hidden: true },
-			{ text: '项目名',  dataIndex: 'projectname', flex: 0.1 },
-			{ text: 'Svn地址', dataIndex: 'svnurl', flex: 0.30 },
-			{ text: 'SvnPath映射', dataIndex: 'svnpath', flex: 0.20 },
-			{
+            { text: '项目名',  dataIndex: 'projectname', flex: 0.1 },
+            { text: 'Svn地址', dataIndex: 'svnurl', flex: 0.30 },
+            { text: 'SvnPath映射', dataIndex: 'svnpath', flex: 0.20 },
+            {
                 text: 'ClassPath映射',
                 dataIndex: 'workpath',
                 flex: 0.20,
@@ -19,7 +19,7 @@ Ext.define('svnPatchMaker.svnProjectGrid', {
                     return "<div style='white-space:normal;word-wrap:break-word;word-break:break-all;'>" + v + "</div>";
                 }
             },
-			{ text: '打包目录', dataIndex: 'savepath', flex: 0.20 }
+            { text: '打包目录', dataIndex: 'savepath', flex: 0.20 }
 		]
     },
     initComponent: function(){
