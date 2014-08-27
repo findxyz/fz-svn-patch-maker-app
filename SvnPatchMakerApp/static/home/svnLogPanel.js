@@ -298,6 +298,11 @@ Ext.define('svnPatchMaker.svnLogPanel', {
                 text: '打包选中的文件',
                 iconCls: 'Cartgo',
                 handler: function(){
+                    var myMask = new Ext.LoadMask(Ext.getBody(), {
+                        msg: '正在处理，请稍后...',
+                        removeMask: true
+                    });
+                    myMask.show();
                     var records = chooseFileGrid.getSelectionModel().getSelection();
                     if(records){
                         var params = {};
@@ -317,6 +322,7 @@ Ext.define('svnPatchMaker.svnLogPanel', {
                             url: '/checkfiles',
                             params: params,
                             success: function(resp){
+                                myMask.hide();
                                 var respText = resp.responseText;
                                 var json = Ext.decode(respText);
                                 // console.log(json);

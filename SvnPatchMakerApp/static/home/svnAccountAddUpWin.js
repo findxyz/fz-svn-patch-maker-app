@@ -1,5 +1,6 @@
 Ext.define('svnPatchMaker.svnAccountAddUpWin', {
     extend: 'Ext.window.Window',
+    modal: true,
     layout: 'fit',
     config: {
         width: 375,

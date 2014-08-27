@@ -18,11 +18,6 @@ Ext.define('svnPatchMaker.packGridWin', {
             text: '确认',
             iconCls: 'Cartremove',
             handler: function(){
-                var myMask = new Ext.LoadMask(Ext.getBody(), {
-                    msg: '正在处理，请稍后...',
-                    removeMask: true
-                });
-                myMask.show();
                 var records = setPackGrid.getStore().getRange();
                 var params = {};
                 var filelist = [];
@@ -36,7 +31,6 @@ Ext.define('svnPatchMaker.packGridWin', {
                     url: '/packfiles',
                     params: params,
                     success: function(resp){
-                        myMask.hide();
                         win.close();
                         var respText = resp.responseText;
                         var json = Ext.decode(respText);
