@@ -134,10 +134,11 @@ if __name__ == '__main__':
         '/lmis/web/mainUI.jsp',
         '/lmis/web/WEB-INF/pages/top.jsp'
     ]
-    resultlist, msg = patchmake(svnpaths,
+    isfileslist, savefileslist, msg = patchmake(svnpaths,
                            r'/lmis',
                            r'D:/Devspace/shenli_lmis/lmis',
                            r'E:/svnlogfiles/sllmis',
                            **{r'/src': r'/web/WEB-INF/classes'})
-    print '\n'.join(resultlist)
+    print '\n'.join(isfileslist)
+    print '\n'.join(savefileslist)
     print msg
