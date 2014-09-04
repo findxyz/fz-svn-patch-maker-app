@@ -26,6 +26,10 @@ Ext.onReady(function(){
     });
 
     svnProjectGrid.on('select', function(grid, record){
+        svnConverterGrid.getStore().removeAll();
+    });
+
+    svnProjectGrid.on('itemclick', function(view, record){
         svnConverterGrid.getStore().load({
             params: {
                 'project': record.get('id')
