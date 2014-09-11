@@ -1,0 +1,60 @@
+defaultTasks 'world'
+task hello {
+	doLast {
+		println 'hello'
+	}
+}
+
+task world(dependsOn: hello) << {
+	println 'world!'
+}
+
+task count << {
+	4.times {
+		println "$it"
+	}
+}
+
+4.times { counter ->
+	task "task$counter" << {
+		println "task $counter"
+	}
+}
+
+task0.dependsOn task2, task3, task1
+
+hello.doFirst {
+	println 'first'
+}
+
+hello.doLast {
+	println 'last'
+}
+
+hello << {
+	println 'another last'
+}
+
+task myProTask {
+	ext.value = "myProTask's property value"
+}
+
+task myTask << {
+	println myProTask.value
+}
+
+task distribution << {
+	println "We build the zip with version=$version"
+}
+
+task release(dependsOn: 'distribution') << {
+	println "We release now"
+}
+
+gradle.taskGraph.whenReady { taskGraph ->
+	if(taskGraph.hasTask(release)){
+		version = '1.0'
+	}else{
+		version = '1.0-SNAPSHOT'
+	}
+}

@@ -18,6 +18,8 @@ urlpatterns = patterns('',
     url(r'^svnlogdatas$', 'SvnPatchMakerApp.views.svnlogdatas'),
     url(r'^checkfiles', 'SvnPatchMakerApp.views.checkfiles'),
     url(r'^packfiles', 'SvnPatchMakerApp.views.packfiles'),
+    url(r'^updateworkpath', 'SvnPatchMakerApp.views.updateworkpath'),
+    url(r'^execute_command', 'SvnPatchMakerApp.views.execute_command'),
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),

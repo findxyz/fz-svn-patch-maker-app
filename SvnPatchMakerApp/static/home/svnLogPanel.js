@@ -13,6 +13,7 @@ Ext.define('svnPatchMaker.svnLogPanel', {
         var svnUserGrid = Ext.create('Ext.grid.Panel', {
             title: '用户',
             width: 110,
+            id: 'svnUserGrid',
             region: 'west',
             store: Ext.data.StoreManager.lookup('svnAccountStore'),
             columns: [
@@ -47,6 +48,7 @@ Ext.define('svnPatchMaker.svnLogPanel', {
         var svnProjectGrid = Ext.create('Ext.grid.Panel', {
             title: '项目',
             region: 'center',
+            id: 'svnProjectGrid',
             store: Ext.data.StoreManager.lookup('svnProjectStore'),
             columns: [
                 { dataIndex: 'id', hidden: true },

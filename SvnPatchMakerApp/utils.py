@@ -4,8 +4,11 @@
 import pysvn
 import subprocess
 import os
+import sys
 
 subversionDir = 'Subversion'
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 def updatesvn(dict):
     def get_login(realm, username, may_save):
@@ -41,12 +44,12 @@ def exec_command(*args):
     return call_back_msg
 
 if __name__ == '__main__':
-    dict = {}
-    dict['username'] = 'fengzhen'
-    dict['password'] = '123456'
-    dict['svnuserdir'] = subversionDir
-    dict['svnworkpath'] = 'D:/svn/crane_soa/performance'
-    print updatesvn(dict)
-    call_back_msg = exec_command(*['D:/Documents/Downloads/gradle-2.0/bin/gradle.bat','-p','E:/gradle','hello'])
+    # dict = {}
+    # dict['username'] = 'fengzhen'
+    # dict['password'] = '123456'
+    # dict['svnuserdir'] = subversionDir
+    # dict['svnworkpath'] = 'D:/svn/crane_soa/performance'
+    # print updatesvn(dict)
+    call_back_msg = exec_command(*['D:/Tools/gradle-2.0/bin/gradle.bat','-p','D:/SandBox/gradle/HelloWorld','hello'])
     print call_back_msg["return_code"]
     print os.linesep.join(call_back_msg["list"])

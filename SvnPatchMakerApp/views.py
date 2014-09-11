@@ -1,5 +1,6 @@
 #/usr/bin/env python
 # -*- coding: utf-8 -*-
+import os
 import time
 
 from django.shortcuts import render, render_to_response
@@ -9,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 import pysvn
 from SvnPatchMakerApp.models import SvnProject, SvnAccount, SvnConverter
 from SvnPatchMakerApp import patchmaker
+from SvnPatchMakerApp import utils
 
 subversionDir = 'Subversion'
 
@@ -87,7 +89,7 @@ def add_or_up_project(request):
     except Exception, e:
         print e
         success = False
-        msg = r'保存失败' + '[' + e + ']'
+        msg = r'保存失败' + '[' + str(e) + ']'
     finally:
         jsondata = json.dumps({"success": success, "msg": msg})
         return HttpResponse(jsondata, content_type="text/html")
@@ -109,7 +111,7 @@ def del_project(request):
     except Exception, e:
         print e
         success = False
-        msg = r'删除失败' + '[' + e + ']'
+        msg = r'删除失败' + '[' + str(e) + ']'
     finally:
         jsondata = json.dumps({"success": success, "msg": msg})
         return HttpResponse(jsondata, content_type="text/html")
@@ -138,7 +140,7 @@ def add_or_up_converter(request):
     except Exception, e:
         print e
         success = False
-        msg = r'保存失败' + '[' + e + ']'
+        msg = r'保存失败' + '[' + str(e) + ']'
     finally:
         jsondata = json.dumps({"success": success, "msg": msg})
         return HttpResponse(jsondata, content_type="text/html")
@@ -160,7 +162,7 @@ def del_converter(request):
     except Exception, e:
         print e
         success = False
-        msg = r'删除失败' + '[' + e + ']'
+        msg = r'删除失败' + '[' + str(e) + ']'
     finally:
         jsondata = json.dumps({"success": success, "msg": msg})
         return HttpResponse(jsondata, content_type="text/html")
@@ -187,7 +189,7 @@ def add_or_up_user(request):
     except Exception, e:
         print e
         success = False
-        msg = r'保存失败' + '[' + e + ']'
+        msg = r'保存失败' + '[' + str(e) + ']'
     finally:
         jsondata = json.dumps({"success": success, "msg": msg})
         return HttpResponse(jsondata, content_type="text/html")
@@ -209,7 +211,7 @@ def del_user(request):
     except Exception, e:
         print e
         success = False
-        msg = r'删除失败' + '[' + e + ']'
+        msg = r'删除失败' + '[' + str(e) + ']'
     finally:
         jsondata = json.dumps({"success": success, "msg": msg})
         return HttpResponse(jsondata, content_type="text/html")
@@ -300,3 +302,48 @@ def packfiles(request):
         filedic['filename'] = save
         savefiles.append(filedic)
     return HttpResponse(json.dumps({"resultfiles": isfileslist, "savefiles": savefiles, "msg": '<font size="5" color="blue">' + msg + '</font>'}))
+
+@csrf_exempt
+def updateworkpath(request):
+    success = True
+    msg = r'缺少参数'
+    try:
+        svnworkpath = request.POST['updatePath']
+        projectId = request.REQUEST['project']
+        project = SvnProject.objects.get(id=projectId)
+        userId = request.REQUEST['user']
+        user = SvnAccount.objects.get(id=userId)
+        if svnworkpath and user and project:
+            dic = {
+                "svnworkpath": svnworkpath,
+                "username": user.username,
+                "password": user.password,
+                "svnuserdir": subversionDir
+            }
+            msg = utils.updatesvn(dic)
+    except Exception, e:
+        print e
+        success = False
+        msg = r'更新失败' + '[' + str(e) + ']<br><font size="5" color="red">检查路径和pysvn版本</font>'
+    finally:
+        jsondata = json.dumps({"success": success, "msg": '<font size="5" color="blue">' + msg + '</font>'})
+        return HttpResponse(jsondata)
+
+@csrf_exempt
+def execute_command(request):
+    success = True
+    msg = r'缺少参数'
+    try:
+        comScript = request.POST['comScript']
+        if comScript:
+            list = comScript.split(',')
+            call_back_msg = utils.exec_command(*list)
+            # call_back_msg["return_code"] 程序执行是否异常 0正常 1异常
+            msg = ('<br>'.join(call_back_msg["list"]))
+    except Exception, e:
+        print e
+        success = False
+        msg = r'脚本执行失败' + '[' + str(e) + ']'
+    finally:
+        jsondata = json.dumps({"success": success, "msg": '<font size="4" color="blue">' + msg + '</font>'})
+        return HttpResponse(jsondata)
