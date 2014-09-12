@@ -336,7 +336,7 @@ def execute_command(request):
     try:
         comScript = request.POST['comScript']
         if comScript:
-            list = comScript.split(',')
+            list = str(comScript).split()
             call_back_msg = utils.exec_command(*list)
             # call_back_msg["return_code"] 程序执行是否异常 0正常 1异常
             msg = ('<br>'.join(call_back_msg["list"]))

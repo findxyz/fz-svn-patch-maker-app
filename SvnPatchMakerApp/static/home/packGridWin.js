@@ -70,7 +70,7 @@ Ext.define('svnPatchMaker.packGridWin', {
                     }]
                 });
                 var comPanel = Ext.create('Ext.panel.Panel', {
-                    title: '编译【逗号分割命令】',
+                    title: '编译【空格分割命令】',
                     html: '',
                     autoScroll: true,
                     tbar: [{
