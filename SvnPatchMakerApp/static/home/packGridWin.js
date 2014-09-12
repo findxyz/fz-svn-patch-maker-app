@@ -18,6 +18,7 @@ Ext.define('svnPatchMaker.packGridWin', {
                 var upPanel = Ext.create('Ext.panel.Panel', {
                     title: '更新',
                     html: '',
+                    autoScroll: true,
                     tbar: [{
                         xtype: 'textfield',
                         fieldLabel: '更新目录',
@@ -35,7 +36,6 @@ Ext.define('svnPatchMaker.packGridWin', {
                     }, {
                         text: 'RUN',
                         handler: function(){
-                            upPanel.update('处理中...请稍等...');
                             var localStorage = window.localStorage;
                             var updatePath = Ext.getCmp('updatePath').getValue();
                             if(!localStorage.getItem("updatePath") || localStorage.getItem("updatePath") != updatePath){
@@ -46,6 +46,7 @@ Ext.define('svnPatchMaker.packGridWin', {
                             var userRecords = Ext.getCmp('svnUserGrid').getSelectionModel().getSelection();
                             var userRecord = userRecords[0];
                             if(updatePath && userRecord && projectRecord){
+                                upPanel.update('处理中...请稍等...');
                                 Ext.Ajax.request({
                                     url: '/updateworkpath',
                                     params: {
@@ -62,6 +63,8 @@ Ext.define('svnPatchMaker.packGridWin', {
                                         }
                                     }
                                 });
+                            }else{
+                                upPanel.update('没有更新路径啊...');
                             }
                         }
                     }]
@@ -69,6 +72,7 @@ Ext.define('svnPatchMaker.packGridWin', {
                 var comPanel = Ext.create('Ext.panel.Panel', {
                     title: '编译【逗号分割命令】',
                     html: '',
+                    autoScroll: true,
                     tbar: [{
                         xtype: 'textfield',
                         fieldLabel: '执行脚本',
@@ -86,13 +90,13 @@ Ext.define('svnPatchMaker.packGridWin', {
                     }, {
                         text: 'RUN',
                         handler: function(){
-                            comPanel.update('处理中...请稍等...');
                             var localStorage = window.localStorage;
                             var comScript = Ext.getCmp('comScript').getValue();
                             if(!localStorage.getItem("comScript") || localStorage.getItem("comScript") != comScript){
                                 localStorage.setItem("comScript", comScript);
                             }
                             if(comScript){
+                                comPanel.update('处理中...请稍等...');
                                 Ext.Ajax.request({
                                     url: '/execute_command',
                                     params: {
@@ -107,6 +111,8 @@ Ext.define('svnPatchMaker.packGridWin', {
                                         }
                                     }
                                 });
+                            }else{
+                                comPanel.update('没有执行命令啊...');
                             }
                         }
                     }]

@@ -1,13 +1,13 @@
 #/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os
 import time
-
-from django.shortcuts import render, render_to_response
-from django.http import Http404, HttpResponse
 import json
+
+from django.shortcuts import render_to_response
+from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import pysvn
+
 from SvnPatchMakerApp.models import SvnProject, SvnAccount, SvnConverter
 from SvnPatchMakerApp import patchmaker
 from SvnPatchMakerApp import utils
@@ -345,5 +345,5 @@ def execute_command(request):
         success = False
         msg = r'脚本执行失败' + '[' + str(e) + ']'
     finally:
-        jsondata = json.dumps({"success": success, "msg": '<font size="4" color="blue">' + msg + '</font>'})
+        jsondata = json.dumps({"success": success, "msg": '<font size="4" color="blue">' + str(msg) + '</font>'})
         return HttpResponse(jsondata)

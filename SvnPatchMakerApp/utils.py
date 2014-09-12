@@ -1,14 +1,14 @@
 #/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import pysvn
 import subprocess
 import os
-import sys
+import locale
+import codecs
+import pysvn
+
 
 subversionDir = 'Subversion'
-reload(sys)
-sys.setdefaultencoding('utf-8')
 
 def updatesvn(dict):
     def get_login(realm, username, may_save):
@@ -27,20 +27,29 @@ def updatesvn(dict):
     return result
 
 def exec_command(*args):
-    # args = ['D:/Documents/Downloads/gradle-2.0/bin/gradle.bat','-p','E:/gradle','hello']
-    p = subprocess.Popen(args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    try:
+        # args = ['D:/Documents/Downloads/gradle-2.0/bin/gradle.bat','-p','E:/gradle','hello']
+        p = subprocess.Popen(args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
-    call_back_msg = {}
-    call_back_msg['list'] = []
-    call_back_msg['return_code'] = ''
+        call_back_msg = {}
+        call_back_msg['list'] = []
+        call_back_msg['return_code'] = ''
 
-    for line in p.stdout.readlines():
-        dic = {}
-        linetrip = line.replace(os.linesep, '').strip()
-        if linetrip:
-            call_back_msg['list'].append(linetrip)
+        for line in p.stdout.readlines():
+            dic = {}
+            linetrip = line.replace(os.linesep, '').strip()
+            # sys.getdefaultencoding() -> ascii
+            # sys.getfilesystemencoding() -> mbcs
+            # locale.getpreferredencoding() -> cp936
+            # codecs.lookup(locale.getpreferredencoding()).name -> gbk
+            ulinetrip = linetrip.decode(codecs.lookup(locale.getpreferredencoding()).name)
+            if linetrip:
+                call_back_msg['list'].append(ulinetrip.encode('utf-8'))
 
-    call_back_msg['return_code'] = p.wait()
+        call_back_msg['return_code'] = p.wait()
+    except Exception, e:
+        print e
+        call_back_msg['list'] = [r'出错了[' + str(e) + ']']
     return call_back_msg
 
 if __name__ == '__main__':
