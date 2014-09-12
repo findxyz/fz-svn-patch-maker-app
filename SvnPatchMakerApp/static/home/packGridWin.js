@@ -92,20 +92,22 @@ Ext.define('svnPatchMaker.packGridWin', {
                             if(!localStorage.getItem("comScript") || localStorage.getItem("comScript") != comScript){
                                 localStorage.setItem("comScript", comScript);
                             }
-                            Ext.Ajax.request({
-                                url: '/execute_command',
-                                params: {
-                                    'comScript': comScript
-                                },
-                                success: function(resp){
-                                    var json = Ext.decode(resp.responseText);
-                                    if(json.success){
-                                        comPanel.update(json.msg);
-                                    }else{
-                                        comPanel.update(json.msg);
+                            if(comScript){
+                                Ext.Ajax.request({
+                                    url: '/execute_command',
+                                    params: {
+                                        'comScript': comScript
+                                    },
+                                    success: function(resp){
+                                        var json = Ext.decode(resp.responseText);
+                                        if(json.success){
+                                            comPanel.update(json.msg);
+                                        }else{
+                                            comPanel.update(json.msg);
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }
                         }
                     }]
                 });
