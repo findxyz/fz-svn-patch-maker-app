@@ -123,6 +123,7 @@ Ext.define('svnPatchMaker.packGridWin', {
                 });
                 var upAndComWin = Ext.create('Ext.Window', {
                     title: '手动更新编译',
+                    modal: true,
                     width: 600,
                     height: 400,
                     layout: 'fit',
