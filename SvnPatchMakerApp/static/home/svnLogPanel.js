@@ -104,7 +104,14 @@ Ext.define('svnPatchMaker.svnLogPanel', {
                 { text: '作者',  dataIndex: 'author', width: 120 },
                 { text: '日期', dataIndex: 'date', width: 150 },
                 { text: '版本', dataIndex: 'vnum', width: 50 },
-                { text: '提交内容', dataIndex: 'message', flex: 1 },
+                {
+                    text: '提交内容',
+                    dataIndex: 'message',
+                    flex: 1,
+                    renderer: function (v, meta, r) {
+                        return "<div style='white-space:normal;word-wrap:break-word;word-break:break-all;'>" + v + "</div>";
+                    }
+                },
                 { text: '变动文件', dataIndex: 'logfiles', hidden: true }
             ],
             height: 260,
