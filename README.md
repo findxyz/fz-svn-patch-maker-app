@@ -32,49 +32,9 @@ svn log file patch local compile file
 
 **6.使用手册在doc目录下**
 
-sample
+***sample***
 
-[1]
-
-/crane_reform/trunk/crane_reform/src/main/java/com/weihua/mapper/merit/rule/MeritRuleMasterMapper.java
-
--
-
-/crane_reform/trunk
-
-=
-
-crane_reform/src/main/java/com/weihua/mapper/merit/rule/MeritRuleMasterMapper.java
-
-[2]
-
-crane_reform/src/main/java/com/weihua/mapper/merit/rule/MeritRuleMasterMapper.java
-
-replace("/crane_reform/src/main/java", "/reform_war_exploded/WEB-INF/classes")
-
-=
-
-/reform_war_exploded/WEB-INF/classes/com/weihua/mapper/merit/rule/MeritRuleMasterMapper.java
-
-[3]
-
-/reform_war_exploded/WEB-INF/classes/com/weihua/mapper/merit/rule/MeritRuleMasterMapper.java
-
-replace(".java", "class")
-
-=
-
-/reform_war_exploded/WEB-INF/classes/com/weihua/mapper/merit/rule/MeritRuleMasterMapper.class
-
-[4]
-
-/reform_war_exploded/WEB-INF/classes/com/weihua/mapper/merit/rule/MeritRuleMasterMapper.class
-
-prefix + /reform_war_exploded/WEB-INF/classes/com/weihua/mapper/merit/rule/MeritRuleMasterMapper.class
-
-=
-
-D:/tools/ideaWorkSpace/crane_reform/target/classes/artifacts/reform_war_exploded/WEB-INF/classes/com/weihua/mapper/merit/rule/MeritRuleMasterMapper.class
+![Translation status](https://github.com/github20120522/SvnPatchMakerApp/blob/master/doc/sample.png)
 
 ***注意:***
 -------------
