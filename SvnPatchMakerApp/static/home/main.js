@@ -22,7 +22,7 @@ Ext.onReady(function(){
     });
 
     var svnConverterGrid = new svnPatchMaker.svnConverterGrid({
-        title: 'Url转换'
+        title: 'Url转换【项目名后映射】'
     });
 
     svnProjectGrid.on('select', function(grid, record){
