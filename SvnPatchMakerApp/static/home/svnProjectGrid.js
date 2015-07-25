@@ -10,9 +10,9 @@ Ext.define('svnPatchMaker.svnProjectGrid', {
             { dataIndex: 'id', hidden: true },
             { text: '项目名',  dataIndex: 'projectname', flex: 0.1 },
             { text: 'Svn地址', dataIndex: 'svnurl', flex: 0.30 },
-            { text: 'SvnPath映射', dataIndex: 'svnpath', flex: 0.20 },
+            { text: 'SvnPath项目名前映射', dataIndex: 'svnpath', flex: 0.20 },
             {
-                text: 'ClassPath映射',
+                text: 'ClassPath项目名前映射',
                 dataIndex: 'workpath',
                 flex: 0.20,
                 renderer: function (v, meta, r) {
