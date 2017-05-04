@@ -228,7 +228,10 @@ def svnlogdatas(request):
         dic['svnurl'] = project.svnurl
         def get_login(realm, username, may_save):
             return True, user.username, user.password, False
+        def ssl_server_trust_prompt( trust_dict ):
+            return (True ,trust_dict["failures"] ,True)
         dic['get_login'] = get_login
+        dic['ssl_server_trust_prompt'] = ssl_server_trust_prompt
         dic['svnuserdir'] = subversionDir
         jsondata = log2grid(dic)
 
@@ -257,10 +260,12 @@ def log2grid(dic):
 def getlogs(dic):
     svnuserdir = dic['svnuserdir']
     get_login = dic['get_login']
+    ssl_server_trust_prompt = dic['ssl_server_trust_prompt']
     begintime = dic['begintime']
     svnurl = dic['svnurl']
     client = pysvn.Client(svnuserdir)
     client.callback_get_login = get_login
+    client.callback_ssl_server_trust_prompt = ssl_server_trust_prompt
     begintime = time.mktime(time.strptime(begintime, '%Y-%m-%d %H:%M:%S'))
     log_messages = \
         client.log(svnurl,
