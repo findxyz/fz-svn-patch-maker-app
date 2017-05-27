@@ -45,7 +45,7 @@ Ext.create('Ext.data.Store', {
 
 Ext.create('Ext.data.Store', {
     storeId:'svnLogStore',
-    fields:['author', 'date', 'message', 'vnum', 'logfiles'],
+    fields:['author', 'date', 'message', 'vnum', 'isconfirm', 'logfiles'],
     proxy: {
         type: 'ajax',
         url: '/svnlogdatas',

@@ -1,3 +1,33 @@
+function cancelVersion(versionKey, me) {
+    $.post("/cancelVersion", {
+        versionKey: versionKey
+    }, function (json) {
+        if (json.success) {
+            $(me).attr("style", "background-color: yellow !important");
+            $(me).attr("disabled", true);
+            $(me).text("已撤销");
+        } else {
+            alert("失败");
+        }
+    }, 'json');
+}
+function confirmVersion(versionKey, me) {
+    $.post("/confirmVersion", {
+        versionKey: versionKey
+    }, function (json) {
+        if (json.success) {
+            var records = searchFileGrid.getSelectionModel().getSelection();
+            chooseFileGrid.getStore().loadData(records, true);
+            $(me).attr("style", "background-color: yellowgreen !important");
+            $(me).attr("disabled", true);
+            $(me).text("已确认");
+        } else {
+            alert("失败");
+        }
+    }, 'json');
+}
+var searchFileGrid;
+var chooseFileGrid;
 Ext.override(Ext.grid.View, { enableTextSelection: true });
 Ext.define('svnPatchMaker.svnLogPanel', {
     extend: 'Ext.panel.Panel',
@@ -104,13 +134,28 @@ Ext.define('svnPatchMaker.svnLogPanel', {
             columns: [
                 { text: '作者',  dataIndex: 'author', width: 120 },
                 { text: '日期', dataIndex: 'date', width: 150 },
-                { text: '版本', dataIndex: 'vnum', width: 50 },
+                { text: '版本', dataIndex: 'vnum', width: 70 },
                 {
                     text: '提交内容',
                     dataIndex: 'message',
-                    flex: 1,
+                    width: 560,
                     renderer: function (v, meta, r) {
                         return "<div style='white-space:normal;word-wrap:break-word;word-break:break-all;'>" + v + "</div>";
+                    }
+                },
+                {
+                    text: '版本确认',
+                    dataIndex: 'isconfirm',
+                    flex: 1,
+                    renderer: function (v, meta, r) {
+                        var projectRecords = svnProjectGrid.getSelectionModel().getSelection();
+                        var projectRecord = projectRecords[0];
+                        var projectId = projectRecord.get('id');
+                        if (v === 'yes') {
+                            return "<button style='background-color: yellowgreen' onclick='cancelVersion(" + JSON.stringify(projectId + "_" + r.raw.vnum) + ", this)'>撤销</button>";
+                        } else {
+                            return "<button style='background-color: yellow' onclick='confirmVersion(" + JSON.stringify(projectId + "_" + r.raw.vnum) + ", this)'>确认</button>";
+                        }
                     }
                 },
                 { text: '变动文件', dataIndex: 'logfiles', hidden: true }
@@ -219,7 +264,7 @@ Ext.define('svnPatchMaker.svnLogPanel', {
         });
 
         /* search files grid begin */
-        var searchFileGrid = Ext.create('Ext.grid.Panel', {
+        searchFileGrid = Ext.create('Ext.grid.Panel', {
             title: '提交文件',
             border: false,
             flex: 1,
@@ -267,7 +312,7 @@ Ext.define('svnPatchMaker.svnLogPanel', {
         /* search files grid end */
 
         /* choose files grid begin */
-        var chooseFileGrid = Ext.create('Ext.grid.Panel', {
+        chooseFileGrid = Ext.create('Ext.grid.Panel', {
             title: '打包文件',
             border: false,
             flex: 1,

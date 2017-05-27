@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import pysvn
 
-from SvnPatchMakerApp.models import SvnProject, SvnAccount, SvnConverter
+from SvnPatchMakerApp.models import SvnProject, SvnAccount, SvnConverter, SvnVersion
 from SvnPatchMakerApp import patchmaker
 from SvnPatchMakerApp import utils
 
@@ -224,6 +224,7 @@ def svnlogdatas(request):
     user = SvnAccount.objects.get(id=userId)
     if project and user:
         dic = {}
+        dic['projectId'] = projectId
         dic['begintime'] = request.REQUEST['begintime']
         dic['svnurl'] = project.svnurl
         def get_login(realm, username, may_save):
@@ -247,6 +248,11 @@ def log2grid(dic):
         logdict["author"] = log["author"]
         logdict["message"] = log["message"]
         logdict["date"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(log.date))
+        try:
+            SvnVersion.objects.get(key=dic["projectId"] + "_" + str(logdict["vnum"]))
+            logdict["isconfirm"] = "yes"
+        except SvnVersion.DoesNotExist:
+            logdict["isconfirm"] = "no"
         for path in log.changed_paths:
             filedic = {}
             filedic["filename"] = path.path
@@ -352,3 +358,27 @@ def execute_command(request):
     finally:
         jsondata = json.dumps({"success": success, "msg": '<font size="4" color="blue">' + str(msg) + '</font>'})
         return HttpResponse(jsondata)
+
+@csrf_exempt
+def confirmVersion(request):
+    success = True
+    versionKey = request.POST.get('versionKey')
+    try:
+        SvnVersion.objects.get(key=versionKey)
+    except SvnVersion.DoesNotExist:
+        version = SvnVersion(key=versionKey)
+        version.save()
+    jsondata = json.dumps({"success": success})
+    return HttpResponse(jsondata)
+
+@csrf_exempt
+def cancelVersion(request):
+    success = True
+    versionKey = request.POST.get('versionKey')
+    try:
+        x = SvnVersion.objects.get(key=versionKey)
+        x.delete()
+    except SvnVersion.DoesNotExist:
+        pass
+    jsondata = json.dumps({"success": success})
+    return HttpResponse(jsondata)
