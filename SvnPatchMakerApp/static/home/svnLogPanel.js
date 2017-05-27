@@ -1,3 +1,4 @@
+Ext.override(Ext.grid.View, { enableTextSelection: true });
 Ext.define('svnPatchMaker.svnLogPanel', {
     extend: 'Ext.panel.Panel',
     title: 'Svn日志',
