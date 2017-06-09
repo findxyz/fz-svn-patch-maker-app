@@ -253,6 +253,25 @@ def log2grid(dic):
             logdict["isconfirm"] = "yes"
         except SvnVersion.DoesNotExist:
             logdict["isconfirm"] = "no"
+
+        try:
+            SvnVersion.objects.get(key=dic["projectId"] + "_" + str(logdict["author"]) + "_" + str(logdict["vnum"]))
+            logdict["isauthorconfirm"] = "yes"
+        except SvnVersion.DoesNotExist:
+            logdict["isauthorconfirm"] = "no"
+
+        try:
+            SvnVersion.objects.get(key=dic["projectId"] + "_test_" + str(logdict["vnum"]))
+            logdict["istestconfirm"] = "yes"
+        except SvnVersion.DoesNotExist:
+            logdict["istestconfirm"] = "no"
+
+        try:
+            SvnVersion.objects.get(key=dic["projectId"] + "_product_" + str(logdict["vnum"]))
+            logdict["isproductconfirm"] = "yes"
+        except SvnVersion.DoesNotExist:
+            logdict["isproductconfirm"] = "no"
+
         for path in log.changed_paths:
             filedic = {}
             filedic["filename"] = path.path

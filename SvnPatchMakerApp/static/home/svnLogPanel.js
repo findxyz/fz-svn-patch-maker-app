@@ -11,13 +11,15 @@ function cancelVersion(versionKey, me) {
         }
     }, 'json');
 }
-function confirmVersion(versionKey, me) {
+function confirmVersion(versionKey, me, needLoad) {
     $.post("/confirmVersion", {
         versionKey: versionKey
     }, function (json) {
         if (json.success) {
-            var records = searchFileGrid.getSelectionModel().getSelection();
-            chooseFileGrid.getStore().loadData(records, true);
+            if (needLoad) {
+                var records = searchFileGrid.getSelectionModel().getSelection();
+                chooseFileGrid.getStore().loadData(records, true);
+            }
             $(me).attr("style", "background-color: yellowgreen !important");
             $(me).attr("disabled", true);
             $(me).text("已确认");
@@ -144,17 +146,62 @@ Ext.define('svnPatchMaker.svnLogPanel', {
                     }
                 },
                 {
-                    text: '版本确认',
+                    text: '个人确认',
+                    dataIndex: 'isauthorconfirm',
+                    width: 100,
+                    renderer: function (v, meta, r) {
+                        var projectRecords = svnProjectGrid.getSelectionModel().getSelection();
+                        var projectRecord = projectRecords[0];
+                        var projectId = projectRecord.get('id');
+                        if (v === 'yes') {
+                            return "<button style='background-color: yellowgreen' onclick='cancelVersion(" + JSON.stringify(projectId + "_" + r.raw.author + "_" + r.raw.vnum) + ", this)'>个人确认撤销</button>";
+                        } else {
+                            return "<button style='background-color: yellow' onclick='confirmVersion(" + JSON.stringify(projectId + "_" + r.raw.author + "_" + r.raw.vnum) + ", this, 0)'>个人确认</button>";
+                        }
+                    }
+                },
+                {
+                    text: '测试确认',
+                    dataIndex: 'istestconfirm',
+                    width: 100,
+                    renderer: function (v, meta, r) {
+                        var projectRecords = svnProjectGrid.getSelectionModel().getSelection();
+                        var projectRecord = projectRecords[0];
+                        var projectId = projectRecord.get('id');
+                        if (v === 'yes') {
+                            return "<button style='background-color: yellowgreen' onclick='cancelVersion(" + JSON.stringify(projectId + "_test_" + r.raw.vnum) + ", this)'>测试确认撤销</button>";
+                        } else {
+                            return "<button style='background-color: yellow' onclick='confirmVersion(" + JSON.stringify(projectId + "_test_" + r.raw.vnum) + ", this, 0)'>测试确认</button>";
+                        }
+                    }
+                },
+                {
+                    text: '部署确认',
                     dataIndex: 'isconfirm',
+                    width: 100,
+                    renderer: function (v, meta, r) {
+                        var projectRecords = svnProjectGrid.getSelectionModel().getSelection();
+                        var projectRecord = projectRecords[0];
+                        var projectId = projectRecord.get('id');
+                        if (v === 'yes') {
+                            return "<button style='background-color: yellowgreen' onclick='cancelVersion(" + JSON.stringify(projectId + "_" + r.raw.vnum) + ", this)'>部署确认撤销</button>";
+                        } else {
+                            return "<button style='background-color: yellow' onclick='confirmVersion(" + JSON.stringify(projectId + "_" + r.raw.vnum) + ", this, 1)'>部署确认</button>";
+                        }
+                    }
+                },
+                {
+                    text: '生产确认',
+                    dataIndex: 'isproductconfirm',
                     flex: 1,
                     renderer: function (v, meta, r) {
                         var projectRecords = svnProjectGrid.getSelectionModel().getSelection();
                         var projectRecord = projectRecords[0];
                         var projectId = projectRecord.get('id');
                         if (v === 'yes') {
-                            return "<button style='background-color: yellowgreen' onclick='cancelVersion(" + JSON.stringify(projectId + "_" + r.raw.vnum) + ", this)'>撤销</button>";
+                            return "<button style='background-color: yellowgreen' onclick='cancelVersion(" + JSON.stringify(projectId + "_product_" + r.raw.vnum) + ", this)'>生产确认撤销</button>";
                         } else {
-                            return "<button style='background-color: yellow' onclick='confirmVersion(" + JSON.stringify(projectId + "_" + r.raw.vnum) + ", this)'>确认</button>";
+                            return "<button style='background-color: yellow' onclick='confirmVersion(" + JSON.stringify(projectId + "_product_" + r.raw.vnum) + ", this, 0)'>生产确认</button>";
                         }
                     }
                 },
